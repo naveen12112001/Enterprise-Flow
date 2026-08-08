@@ -1,0 +1,5 @@
+config:
+  application:
+    name: EnterpriseFlow
+    environment: DEV
+    server-port: 8000
