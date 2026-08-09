@@ -19,4 +19,10 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(Instant.now(), HttpStatus.NOT_FOUND.value(), "Not Found",ex.getMessage(), "/api/v1/error-response");
 
     }
+
+    @ExceptionHandler(value = NoSuchEmployeeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public @ResponseBody com.enterpriseflow.enterpriseflow.dto.ErrorResponse handleEmployee(NoSuchEmployeeException ex){
+        return new ErrorResponse(ex.getMessage());
+    }
 }
