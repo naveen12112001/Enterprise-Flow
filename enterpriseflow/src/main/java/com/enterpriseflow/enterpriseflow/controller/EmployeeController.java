@@ -1,7 +1,7 @@
 package com.enterpriseflow.enterpriseflow.controller;
 
 
-import com.enterpriseflow.enterpriseflow.EmployeeService;
+import com.enterpriseflow.enterpriseflow.service.EmployeeService;
 import com.enterpriseflow.enterpriseflow.dto.EmployeeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

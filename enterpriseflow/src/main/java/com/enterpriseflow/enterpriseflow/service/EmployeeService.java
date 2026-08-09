@@ -1,10 +1,9 @@
-package com.enterpriseflow.enterpriseflow;
+package com.enterpriseflow.enterpriseflow.service;
 
 import com.enterpriseflow.enterpriseflow.dto.EmployeeResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -14,7 +13,6 @@ public class EmployeeService {
             List.of(new EmployeeResponse(1,"Naveen","HR"),
                     new EmployeeResponse(2,"Lakshita","Finance"),
                     new EmployeeResponse(3,"Parimala","Engineering")));
-    EmployeeResponse employeeResponse =  new EmployeeResponse();
     public List<EmployeeResponse> getAll(){
         return employeeResponses;
     }
