@@ -1,11 +1,9 @@
 package com.enterpriseflow.enterpriseflow.controller;
 
-
 import com.enterpriseflow.enterpriseflow.service.EmployeeService;
 import com.enterpriseflow.enterpriseflow.dto.EmployeeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,5 +19,10 @@ public class EmployeeController {
     @PostMapping
     public EmployeeResponse postEmployee(@RequestBody EmployeeResponse employeeResponse){
         return employeeService.postOne(employeeResponse.getName(),employeeResponse.getDepartment());
+    }
+
+    @GetMapping("/{id}")
+    public Object getById(@PathVariable int id){
+        return employeeService.getOne(id);
     }
 }
