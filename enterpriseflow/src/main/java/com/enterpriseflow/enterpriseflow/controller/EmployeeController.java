@@ -25,4 +25,9 @@ public class EmployeeController {
     public Object getById(@PathVariable int id){
         return employeeService.getOne(id);
     }
+
+    @PutMapping("{id}")
+    public EmployeeResponse putById(@PathVariable int id,@RequestBody EmployeeResponse employeeResponse){
+        return employeeService.putOne(id,employeeResponse.getName(),employeeResponse.getDepartment());
+    }
 }
