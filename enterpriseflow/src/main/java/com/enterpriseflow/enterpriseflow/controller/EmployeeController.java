@@ -2,10 +2,14 @@ package com.enterpriseflow.enterpriseflow.controller;
 
 import com.enterpriseflow.enterpriseflow.Employee;
 import com.enterpriseflow.enterpriseflow.dto.DeleteResponse;
+import com.enterpriseflow.enterpriseflow.dto.EmployeeRequest;
 import com.enterpriseflow.enterpriseflow.service.EmployeeService;
 import com.enterpriseflow.enterpriseflow.dto.EmployeeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -14,23 +18,28 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
     @GetMapping
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAll();
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees(){
+        return ResponseEntity.ok(employeeService.getAll());
     }
 
     @PostMapping
-    public Employee postEmployee(@RequestBody EmployeeResponse employeeResponse){
-        return employeeService.postOne(employeeResponse.getName(),employeeResponse.getDepartment());
+    public ResponseEntity<EmployeeResponse> postEmployee(@RequestBody EmployeeRequest employeeRequest){
+        Employee saved = employeeService.postOne(employeeRequest);
+        EmployeeResponse employeeResponse = new EmployeeResponse(saved.getId(),saved.getName(),saved.getDepartment());
+        return new ResponseEntity<>(employeeResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable int id){
-        return employeeService.getOne(id);
+    public ResponseEntity<EmployeeResponse> getById(@PathVariable int id){
+        EmployeeResponse employee = employeeService.getOne(id);
+        return new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public Employee putById(@PathVariable int id, @RequestBody EmployeeResponse employeeResponse){
-        return employeeService.putOne(id,employeeResponse.getName(),employeeResponse.getDepartment());
+    public ResponseEntity<EmployeeResponse> putById(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest){
+        employeeService.putOne(id,employeeRequest);
+        EmployeeResponse employeeResponse = employeeService.putOne(id,employeeRequest);
+        return new ResponseEntity<>(employeeResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
