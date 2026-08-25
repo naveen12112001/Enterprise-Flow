@@ -4,15 +4,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({ "id", "name", "department"})
 public class EmployeeResponse {
-    int id;
-    String name;
-    String department;
+    private int id;
+    private String name;
+    private String department;
 
     public EmployeeResponse(String name,String department){
         this.name=name;

@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,7 +26,7 @@ public class EmployeeController {
     public ResponseEntity<EmployeeResponse> postEmployee(@RequestBody EmployeeRequest employeeRequest){
         Employee saved = employeeService.postOne(employeeRequest);
         EmployeeResponse employeeResponse = new EmployeeResponse(saved.getId(),saved.getName(),saved.getDepartment());
-        return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
+        return new ResponseEntity<>(employeeResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
