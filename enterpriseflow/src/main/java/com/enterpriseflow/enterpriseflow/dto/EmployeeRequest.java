@@ -1,6 +1,5 @@
 package com.enterpriseflow.enterpriseflow.dto;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 
 @Data
@@ -8,13 +7,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({ "id", "name", "department"})
-public class EmployeeResponse {
+public class EmployeeRequest {
     int id;
     String name;
     String department;
 
-    public EmployeeResponse(String name,String department){
+    EmployeeRequest(String name,String department){
         this.name=name;
         this.department=department;
     }

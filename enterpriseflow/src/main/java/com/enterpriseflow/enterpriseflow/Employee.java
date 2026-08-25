@@ -13,8 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "employees")
-@JsonPropertyOrder({ "id", "name", "department"}
-)
+@JsonPropertyOrder({ "id", "name", "department"})
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

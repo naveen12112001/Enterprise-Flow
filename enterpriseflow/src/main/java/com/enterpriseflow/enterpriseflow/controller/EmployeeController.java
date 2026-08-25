@@ -2,9 +2,13 @@ package com.enterpriseflow.enterpriseflow.controller;
 
 import com.enterpriseflow.enterpriseflow.Employee;
 import com.enterpriseflow.enterpriseflow.dto.DeleteResponse;
+import com.enterpriseflow.enterpriseflow.dto.EmployeeRequest;
 import com.enterpriseflow.enterpriseflow.service.EmployeeService;
 import com.enterpriseflow.enterpriseflow.dto.EmployeeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,19 +22,23 @@ public class EmployeeController {
         return employeeService.getAll();
     }
 
-    @PostMapping
-    public Employee postEmployee(@RequestBody EmployeeResponse employeeResponse){
-        return employeeService.postOne(employeeResponse.getName(),employeeResponse.getDepartment());
+    @PostMapping("/{id}")
+    public ResponseEntity<EmployeeRequest> postEmployee(@PathVariable int id,@RequestBody EmployeeRequest employeeRequest){
+        employeeService.postOne(id,employeeRequest);
+        return new ResponseEntity<>(employeeRequest, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable int id){
-        return employeeService.getOne(id);
+    public ResponseEntity<EmployeeResponse> getById(@PathVariable int id){
+        EmployeeResponse employee = employeeService.getOne(id);
+        return new ResponseEntity<>(employee,HttpStatus.FOUND);
     }
 
     @PutMapping("{id}")
-    public Employee putById(@PathVariable int id, @RequestBody EmployeeResponse employeeResponse){
-        return employeeService.putOne(id,employeeResponse.getName(),employeeResponse.getDepartment());
+    public ResponseEntity<EmployeeResponse> putById(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest){
+        EmployeeResponse employeeResponse = new EmployeeResponse(employeeService.getOne(id).getId(),employeeService.getOne(id).getName(),employeeService.getOne(id).getDepartment());
+        employeeService.putOne(employeeRequest);
+        return new ResponseEntity<>(employeeResponse,HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
