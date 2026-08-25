@@ -21,14 +21,19 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new NoSuchEmployeeException("No employee of this Id found!"));
         return new EmployeeResponse(employee.getId(),employee.getName(),employee.getDepartment());
     }
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeResponse> getAll() {
+        List<Employee> employees = employeeRepository.findAll();
+        List<EmployeeResponse> employeeResponses = new ArrayList<>();
+        for(Employee e:employees){
+            EmployeeResponse toBeAdded =  new EmployeeResponse(e.getId(),e.getName(),e.getDepartment());
+            employeeResponses.add(toBeAdded);
+        }
+        return employeeResponses;
     }
 
-    public EmployeeRequest postOne(EmployeeRequest employeeRequest) {
+    public Employee postOne(EmployeeRequest employeeRequest) {
         Employee employee = new Employee(employeeRequest.getName(),employeeRequest.getDepartment());
-        employeeRepository.save(employee);
-        return employeeRequest;
+        return employeeRepository.save(employee);
     }
     public EmployeeResponse putOne(int id, EmployeeRequest employeeRequest) {
         Employee employee = employeeRepository.findById(id).orElseThrow(()-> new NoSuchEmployeeException("Sorry! No such employee found to edit values"));

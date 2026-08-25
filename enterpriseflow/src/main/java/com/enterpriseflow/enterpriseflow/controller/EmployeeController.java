@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,14 +19,14 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
     @GetMapping
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAll();
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees(){
+        return ResponseEntity.ok(employeeService.getAll());
     }
 
     @PostMapping
     public ResponseEntity<EmployeeResponse> postEmployee(@RequestBody EmployeeRequest employeeRequest){
-        employeeService.postOne(employeeRequest);
-        EmployeeResponse employeeResponse = new EmployeeResponse(employeeRequest.getName(),employeeRequest.getDepartment());
+        Employee saved = employeeService.postOne(employeeRequest);
+        EmployeeResponse employeeResponse = new EmployeeResponse(saved.getId(),saved.getName(),saved.getDepartment());
         return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
     }
 
