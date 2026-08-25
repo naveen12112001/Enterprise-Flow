@@ -38,7 +38,7 @@ public class EmployeeController {
     @PutMapping("{id}")
     public ResponseEntity<EmployeeResponse> putById(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest){
         employeeService.putOne(id,employeeRequest);
-        EmployeeResponse employeeResponse = new EmployeeResponse(id,employeeRequest.getName(),employeeRequest.getDepartment());
+        EmployeeResponse employeeResponse = employeeService.putOne(id,employeeRequest);
         return new ResponseEntity<>(employeeResponse,HttpStatus.OK);
     }
 
