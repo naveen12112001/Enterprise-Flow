@@ -7,6 +7,7 @@ import com.enterpriseflow.enterpriseflow.exception.NoSuchEmployeeException;
 import com.enterpriseflow.enterpriseflow.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,13 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public EmployeeRequest postOne(int id,EmployeeRequest employeeRequest) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new NoSuchEmployeeException("No employee of this Id found!"));
-        Employee employeeToBeAdded = new Employee(employeeRequest.getName(),employeeRequest.getDepartment());
-        employeeRepository.save(employeeToBeAdded);
+    public EmployeeRequest postOne(EmployeeRequest employeeRequest) {
+        Employee employee = new Employee(employeeRequest.getName(),employeeRequest.getDepartment());
+        employeeRepository.save(employee);
         return employeeRequest;
     }
-    public EmployeeResponse putOne(EmployeeRequest employeeRequest) {
-        Employee employee = employeeRepository.findById(employeeRequest.getId()).orElseThrow(()-> new NoSuchEmployeeException("Sorry! No such employee found to edit values"));
+    public EmployeeResponse putOne(@PathVariable int id, EmployeeRequest employeeRequest) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(()-> new NoSuchEmployeeException("Sorry! No such employee found to edit values"));
         employee.setName(employeeRequest.getName());
         employee.setDepartment(employeeRequest.getDepartment());
         return new EmployeeResponse(employee.getId(),employee.getName(),employee.getDepartment());

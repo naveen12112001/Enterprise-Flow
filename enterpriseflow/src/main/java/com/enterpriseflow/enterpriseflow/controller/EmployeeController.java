@@ -6,7 +6,6 @@ import com.enterpriseflow.enterpriseflow.dto.EmployeeRequest;
 import com.enterpriseflow.enterpriseflow.service.EmployeeService;
 import com.enterpriseflow.enterpriseflow.dto.EmployeeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,22 +22,22 @@ public class EmployeeController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<EmployeeRequest> postEmployee(@PathVariable int id,@RequestBody EmployeeRequest employeeRequest){
-        employeeService.postOne(id,employeeRequest);
-        return new ResponseEntity<>(employeeRequest, HttpStatus.CREATED);
+    public ResponseEntity<EmployeeRequest> postEmployee(@RequestBody EmployeeRequest employeeRequest){
+        employeeService.postOne(employeeRequest);
+        return new ResponseEntity<>(employeeRequest, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResponse> getById(@PathVariable int id){
         EmployeeResponse employee = employeeService.getOne(id);
-        return new ResponseEntity<>(employee,HttpStatus.FOUND);
+        return new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<EmployeeResponse> putById(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest){
-        EmployeeResponse employeeResponse = new EmployeeResponse(employeeService.getOne(id).getId(),employeeService.getOne(id).getName(),employeeService.getOne(id).getDepartment());
-        employeeService.putOne(employeeRequest);
-        return new ResponseEntity<>(employeeResponse,HttpStatus.CREATED);
+        employeeService.putOne(id,employeeRequest);
+        EmployeeResponse employeeResponse = new EmployeeResponse(id,employeeRequest.getName(),employeeRequest.getDepartment());
+        return new ResponseEntity<>(employeeResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
