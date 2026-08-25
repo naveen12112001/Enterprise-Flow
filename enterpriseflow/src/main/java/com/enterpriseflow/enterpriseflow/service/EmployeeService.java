@@ -30,7 +30,7 @@ public class EmployeeService {
         employeeRepository.save(employee);
         return employeeRequest;
     }
-    public EmployeeResponse putOne(@PathVariable int id, EmployeeRequest employeeRequest) {
+    public EmployeeResponse putOne(int id, EmployeeRequest employeeRequest) {
         Employee employee = employeeRepository.findById(id).orElseThrow(()-> new NoSuchEmployeeException("Sorry! No such employee found to edit values"));
         employee.setName(employeeRequest.getName());
         employee.setDepartment(employeeRequest.getDepartment());

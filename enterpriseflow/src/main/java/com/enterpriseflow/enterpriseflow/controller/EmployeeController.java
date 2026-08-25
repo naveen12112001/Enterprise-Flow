@@ -21,10 +21,11 @@ public class EmployeeController {
         return employeeService.getAll();
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<EmployeeRequest> postEmployee(@RequestBody EmployeeRequest employeeRequest){
+    @PostMapping
+    public ResponseEntity<EmployeeResponse> postEmployee(@RequestBody EmployeeRequest employeeRequest){
         employeeService.postOne(employeeRequest);
-        return new ResponseEntity<>(employeeRequest, HttpStatus.OK);
+        EmployeeResponse employeeResponse = new EmployeeResponse(employeeRequest.getName(),employeeRequest.getDepartment());
+        return new ResponseEntity<>(employeeResponse, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
